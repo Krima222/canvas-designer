@@ -77,6 +77,16 @@ export function Canvas({ selectedElement }: CanvasProps) {
         setElements((prevElements) => [...prevElements, img]);
       });
     };
+
+    const cleareCanvas = () => {
+      if (canvas) {
+        canvas.getObjects().forEach((el) => {
+          canvas.remove(el);
+        });
+        canvas.renderAll();
+        setElements([]);
+      }
+    }
   
     if (selectedElement === 'text') {
       addText();
@@ -86,7 +96,9 @@ export function Canvas({ selectedElement }: CanvasProps) {
       addJpgImage();
     } else if (selectedElement === 'png') {
       addPngImage();
-    } 
+    } else if (selectedElement === 'cleare') {
+      cleareCanvas()
+    }
   }, [selectedElement, canvas]);
 
   return (
