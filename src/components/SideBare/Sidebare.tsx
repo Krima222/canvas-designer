@@ -1,7 +1,8 @@
 interface SidebarProps {
     handleElementSelect: (element: string) => void;
+    handleOpen: (element: boolean) => void;
 }
-export function Sidebare({handleElementSelect}: SidebarProps) {
+export function Sidebare({handleElementSelect, handleOpen}: SidebarProps) {
 
     const handleTextButtonClick = () => {
         handleElementSelect('text');
@@ -23,6 +24,10 @@ export function Sidebare({handleElementSelect}: SidebarProps) {
         handleElementSelect('cleare');
       };
 
+      const handleModalOpenButtonClick = () => {
+        handleOpen(true);
+      };
+
     return (
         <div>
             <button onClick={handleTextButtonClick}>Text</button>
@@ -30,6 +35,7 @@ export function Sidebare({handleElementSelect}: SidebarProps) {
             <button onClick={handleJpgButtonClick}>Jpg</button>
             <button onClick={handlePngButtonClick}>Png</button>
             <button onClick={handleCleareButtonClick}>Cleare</button>
+            <button onClick={handleModalOpenButtonClick}>Save</button>
         </div>
     )
 }

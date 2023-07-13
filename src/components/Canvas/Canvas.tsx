@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 import imgJpg from '../../img/jpg/image.jpg';
 import imgPng from '../../img/png/image.png';
+import { Modal } from '../Modal/Modal';
 
 import classes from './Canvas.module.scss'
 
 interface CanvasProps {
   selectedElement: string | null;
+  handleOpen: (element: boolean) => void;
+  open: boolean;
 }
 
-export function Canvas({ selectedElement }: CanvasProps) {
+const generateSVGCode = (canvas: fabric.Canvas | null): string => {
+  if (!canvas) return '';
+  return canvas.toSVG();
+};
+
+export function Canvas({ selectedElement, handleOpen, open }: CanvasProps) {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [elements, setElements] = useState<fabric.Object[]>([]);
 
@@ -37,6 +45,17 @@ export function Canvas({ selectedElement }: CanvasProps) {
         fontSize: 20,
         fill: 'black',
       });
+
+      text.on('selected', () => {
+        text.bringToFront();
+        canvas.renderAll();
+      });
+      
+      text.on('moving', () => {
+        text.bringToFront();
+        canvas.renderAll();
+      });
+
       canvas.add(text);
       canvas.renderAll();
       setElements((prevElements) => [...prevElements, text]);
@@ -104,6 +123,7 @@ export function Canvas({ selectedElement }: CanvasProps) {
   return (
     <div className={classes.canvas}>
       <canvas id="canvas" />
+      {open ? <Modal handleOpen={handleOpen} svgCode={generateSVGCode(canvas)} /> : null}
     </div>
   );
 }
