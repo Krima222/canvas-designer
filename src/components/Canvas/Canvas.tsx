@@ -1,9 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fabric } from 'fabric';
+import imgJpg from '../../img/jpg/image.jpg';
+import imgPng from '../../img/png/image.png';
 
 import classes from './Canvas.module.scss'
 
-export function Canvas() {
+interface CanvasProps {
+  selectedElement: string | null;
+}
+
+export function Canvas({ selectedElement }: CanvasProps) {
+  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
+  const [elements, setElements] = useState<fabric.Object[]>([]);
 
   useEffect(() => {
     const newCanvas = new fabric.Canvas('canvas', {
@@ -12,10 +20,74 @@ export function Canvas() {
       backgroundColor: 'pink',
     });
 
+    setCanvas(newCanvas);
+
     return () => {
       newCanvas.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    if (!canvas) return;
+  
+    const addText = () => {
+      const text = new fabric.Textbox('Text', {
+        left: 50,
+        top: 50,
+        fontSize: 20,
+        fill: 'black',
+      });
+      canvas.add(text);
+      canvas.renderAll();
+      setElements((prevElements) => [...prevElements, text]);
+    };
+  
+    const addRect = () => {
+      const rect = new fabric.Rect({
+        width: 50,
+        height: 50,
+        left: 100,
+        top: 100,
+        stroke: '#aaf',
+        strokeWidth: 5,
+        fill: '#faa',
+      });
+      canvas.add(rect);
+      canvas.renderAll();
+      setElements((prevElements) => [...prevElements, rect]);
+    };
+
+    const addJpgImage = () => {
+      console.log('as')
+      fabric.Image.fromURL(imgJpg, (img) => {
+        img.scaleToWidth(200);
+        img.scaleToHeight(200);
+        canvas.add(img);
+        canvas.renderAll();
+        setElements((prevElements) => [...prevElements, img]);
+      });
+      };
+
+    const addPngImage = () => {
+      fabric.Image.fromURL(imgPng, (img) => {
+        img.scaleToWidth(200);
+        img.scaleToHeight(200);
+        canvas.add(img);
+        canvas.renderAll();
+        setElements((prevElements) => [...prevElements, img]);
+      });
+    };
+  
+    if (selectedElement === 'text') {
+      addText();
+    } else if (selectedElement === 'element') {
+      addRect();
+    } else if (selectedElement === 'jpg') {
+      addJpgImage();
+    } else if (selectedElement === 'png') {
+      addPngImage();
+    } 
+  }, [selectedElement, canvas]);
 
   return (
     <div className={classes.canvas}>
