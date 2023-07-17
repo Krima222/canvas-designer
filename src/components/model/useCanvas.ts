@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { fabric } from 'fabric';
-import imgJpg from '../../img/jpg/image.jpg';
-import imgPng from '../../img/png/image.png';
 
 interface Props {
   selectedElement: string | File | null;
@@ -78,27 +76,23 @@ export function useCanvas({ selectedElement }: Props): UseCanvasResult {
       setHistory((prevHistory) => [...prevHistory, generateSVGCode(canvas)]);
     };
 
-    const addJpgImage = () => {
-      console.log('as');
-      fabric.Image.fromURL(imgJpg, (img) => {
-        img.scaleToWidth(200);
-        img.scaleToHeight(200);
-        canvas.add(img);
-        canvas.renderAll();
-        setElements((prevElements) => [...prevElements, img]);
-        setHistory((prevHistory) => [...prevHistory, generateSVGCode(canvas)]);
-      });
-    };
-
-    const addPngImage = () => {
-      fabric.Image.fromURL(imgPng, (img) => {
-        img.scaleToWidth(200);
-        img.scaleToHeight(200);
-        canvas.add(img);
-        canvas.renderAll();
-        setElements((prevElements) => [...prevElements, img]);
-        setHistory((prevHistory) => [...prevHistory, generateSVGCode(canvas)]);
-      });
+    const addImage = (file: File) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const url = event.target?.result as string;
+        fabric.Image.fromURL(url, (img) => {
+          img.scaleToWidth(200);
+          img.scaleToHeight(200);
+          canvas.add(img);
+          canvas.renderAll();
+          setElements((prevElements) => [...prevElements, img]);
+          setHistory((prevHistory) => [
+            ...prevHistory,
+            generateSVGCode(canvas),
+          ]);
+        });
+      };
+      reader.readAsDataURL(file);
     };
 
     const cleareCanvas = () => {
@@ -135,14 +129,15 @@ export function useCanvas({ selectedElement }: Props): UseCanvasResult {
       addText();
     } else if (selectedElement === 'element') {
       addRect();
-    } else if (selectedElement === 'jpg') {
-      addJpgImage();
-    } else if (selectedElement === 'png') {
-      addPngImage();
     } else if (selectedElement === 'cleare') {
       cleareCanvas();
     } else if (selectedElement === 'redo') {
       redo();
+    } else if (
+      typeof selectedElement === 'object' &&
+      selectedElement !== null
+    ) {
+      addImage(selectedElement as File);
     }
   }, [selectedElement, canvas]);
 

@@ -3,7 +3,7 @@ import { Modal } from '../Modal/Modal';
 import { generateSVGCode } from '../../utils/canvasUtils';
 import { ElementType } from '../../types/ElementType';
 
-import classes from './Canvas.module.scss'
+import classes from './Canvas.module.scss';
 
 interface CanvasProps {
   selectedElement: ElementType | File | null;
@@ -12,9 +12,7 @@ interface CanvasProps {
 }
 
 export function Canvas({ selectedElement, handleOpen, isOpen }: CanvasProps) {
-  const {
-    canvas
-  } = useCanvas({ selectedElement });
+  const { canvas } = useCanvas({ selectedElement });
 
   const svgCode = generateSVGCode(canvas);
 

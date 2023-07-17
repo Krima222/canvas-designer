@@ -1,1 +1,7 @@
-export type ElementType = 'text' | 'element' | 'jpg' | 'png' | 'cleare' | 'redo';
+export type ElementType =
+  | 'text'
+  | 'element'
+  | 'jpg'
+  | 'png'
+  | 'cleare'
+  | 'redo';
