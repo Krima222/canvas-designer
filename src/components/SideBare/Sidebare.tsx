@@ -1,6 +1,8 @@
+import { ElementType } from "../../types/ElementType";
+
 interface SidebarProps {
-    handleElementSelect: (element: string) => void;
-    handleOpen: (element: boolean) => void;
+  handleElementSelect: (element: ElementType) => void;
+  handleOpen: (element: boolean) => void;
 }
 export function Sidebare({handleElementSelect, handleOpen}: SidebarProps) {
 
@@ -24,6 +26,10 @@ export function Sidebare({handleElementSelect, handleOpen}: SidebarProps) {
         handleElementSelect('cleare');
       };
 
+      const handleRedoButtonClick = () => {
+        handleElementSelect('redo');
+      };
+
       const handleModalOpenButtonClick = () => {
         handleOpen(true);
       };
@@ -35,6 +41,7 @@ export function Sidebare({handleElementSelect, handleOpen}: SidebarProps) {
             <button onClick={handleJpgButtonClick}>Jpg</button>
             <button onClick={handlePngButtonClick}>Png</button>
             <button onClick={handleCleareButtonClick}>Cleare</button>
+            <button onClick={handleRedoButtonClick}>Redo</button>
             <button onClick={handleModalOpenButtonClick}>Save</button>
         </div>
     )
