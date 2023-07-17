@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import { Canvas } from "./Canvas/Canvas";
 import { Sidebare } from "./SideBare/Sidebare";
+import { ElementType } from '../types/ElementType';
 
 import classes from './App.module.scss'
 
-const App: React.FC = () => {
-    const [selectedElement, setSelectedElement] = useState<string | null>(null);
-    const [open, setOpen] = useState<boolean>(false);
+export function App() {
+    const [selectedElement, setSelectedElement] = useState<ElementType | null>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const handleElementSelect = (element: string) => {
+    const handleElementSelect = (element: ElementType) => {
         setSelectedElement(element);
     };
 
-    const handleOpen = (element: boolean) => {
-        setOpen(element);
+    const handleOpen = (isOpen: boolean) => {
+        setIsOpen(isOpen);
     };
 
     return (
         <div className={classes.layout}>
             <Sidebare handleElementSelect={handleElementSelect} handleOpen={handleOpen}/>
-            <Canvas selectedElement={selectedElement} handleOpen={handleOpen} open={open}/>
+            <Canvas selectedElement={selectedElement} handleOpen={handleOpen} isOpen={isOpen}/>
         </div>
     )
 }
-
-export {App}
