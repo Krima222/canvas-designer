@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Canvas } from './Canvas/Canvas';
 import { Sidebare } from './SideBare/Sidebare';
 import { ElementType } from '../types/ElementType';
+import { Header } from './Header/Header';
 
 import classes from './App.module.scss';
 
@@ -21,15 +22,22 @@ export function App() {
 
   return (
     <div className={classes.layout}>
-      <Sidebare
-        handleElementSelect={handleElementSelect}
-        handleOpen={handleOpen}
-      />
-      <Canvas
-        selectedElement={selectedElement}
-        handleOpen={handleOpen}
-        isOpen={isOpen}
-      />
+      <Header />
+      <div className={classes.layout__wrapper}>
+        <div className={classes.layout__sidebar}>
+          <Sidebare
+            handleElementSelect={handleElementSelect}
+            handleOpen={handleOpen}
+          />
+        </div>
+        <div className={classes.layout__canvas}>
+          <Canvas
+            selectedElement={selectedElement}
+            handleOpen={handleOpen}
+            isOpen={isOpen}
+          />
+        </div>
+      </div>
     </div>
   );
 }
