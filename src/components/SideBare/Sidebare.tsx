@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { ElementType } from '../../types/ElementType';
-
 import donload from '../../img/download.svg';
 import figure from '../../img/figure.svg';
 import capitallettert from '../../img/capitallettert.svg';
@@ -11,30 +9,21 @@ import triangle from '../../img/triangle.svg';
 
 import classes from './Sidebare.module.scss';
 
-type CustomElementType = ElementType | File | null;
-
 interface SidebarProps {
-  handleElementSelect: (element: CustomElementType) => void;
-  handleOpen: (element: boolean) => void;
+  addText: () => void;
+  addRect: () => void;
+  addCircle: () => void;
+  addTriangle: () => void;
+  addImage: (file: File) => void;
 }
-export function Sidebare({ handleElementSelect, handleOpen }: SidebarProps) {
+export function Sidebare({
+  addText,
+  addRect,
+  addCircle,
+  addTriangle,
+  addImage,
+}: SidebarProps) {
   const [open, setOpen] = useState<boolean>(false);
-
-  const handleTextButtonClick = () => {
-    handleElementSelect('text');
-  };
-
-  const handleRectButtonClick = () => {
-    handleElementSelect('rect');
-  };
-
-  const handleCircleButtonClick = () => {
-    handleElementSelect('circle');
-  };
-
-  const handleTriangleButtonClick = () => {
-    handleElementSelect('triangle');
-  };
 
   const handleElementButtonClick = () => {
     setOpen(!open);
@@ -43,16 +32,14 @@ export function Sidebare({ handleElementSelect, handleOpen }: SidebarProps) {
   const handleImgInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      handleElementSelect(file);
+      addImage(file);
+      event.target.value = '';
     }
   };
 
   return (
     <div className={classes.sidebar}>
-      <button
-        className={classes.sidebar__button}
-        onClick={handleTextButtonClick}
-      >
+      <button className={classes.sidebar__button} onClick={addText}>
         <img src={capitallettert} alt="capitallettert" />
         Text
       </button>
@@ -64,13 +51,13 @@ export function Sidebare({ handleElementSelect, handleOpen }: SidebarProps) {
         Rect
         {open ? (
           <ul>
-            <li onClick={handleCircleButtonClick}>
+            <li onClick={addCircle}>
               <img src={circle} alt="circle" />
             </li>
-            <li onClick={handleRectButtonClick}>
+            <li onClick={addRect}>
               <img src={square} alt="square" />
             </li>
-            <li onClick={handleTriangleButtonClick}>
+            <li onClick={addTriangle}>
               <img src={triangle} alt="triangle" />
             </li>
           </ul>

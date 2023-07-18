@@ -4,10 +4,10 @@ import classes from './Modal.module.scss';
 
 interface ModalProps {
   handleOpen: (element: boolean) => void;
-  svgCode?: string;
+  generateSVGCode: () => string;
 }
 
-export function Modal({ handleOpen, svgCode }: ModalProps) {
+export function Modal({ handleOpen, generateSVGCode }: ModalProps) {
   const handleModalCloseButtonClick = () => {
     handleOpen(false);
   };
@@ -17,7 +17,7 @@ export function Modal({ handleOpen, svgCode }: ModalProps) {
       <div className={classes.modal}>
         <h2>Portal</h2>
         <button onClick={handleModalCloseButtonClick}>Close</button>
-        <div>{svgCode}</div>
+        <div>{generateSVGCode()}</div>
       </div>
     </Portal>
   );

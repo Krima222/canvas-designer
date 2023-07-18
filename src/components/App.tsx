@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import { Canvas } from './Canvas/Canvas';
+import { useCanvas } from './model/useCanvas';
+
+import { Modal } from './Modal/Modal';
 import { Sidebare } from './SideBare/Sidebare';
-import { ElementType } from '../types/ElementType';
 import { Header } from './Header/Header';
 
 import classes from './App.module.scss';
 
 export function App() {
-  const [selectedElement, setSelectedElement] = useState<
-    ElementType | File | null
-  >(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleElementSelect = (element: ElementType | File | null) => {
-    setSelectedElement(element);
-  };
+  const {
+    addText,
+    addRect,
+    addCircle,
+    addTriangle,
+    addImage,
+    cleareCanvas,
+    undoDeleteElement,
+    deleteLastElement,
+    generateSVGCode,
+  } = useCanvas();
 
   const handleOpen = (isOpen: boolean) => {
     setIsOpen(isOpen);
@@ -24,23 +30,27 @@ export function App() {
     <div className={classes.layout}>
       <Header
         handleOpen={handleOpen}
-        handleElementSelect={handleElementSelect}
+        cleareCanvas={cleareCanvas}
+        undoDeleteElement={undoDeleteElement}
+        deleteLastElement={deleteLastElement}
       />
       <div className={classes.layout__wrapper}>
         <div className={classes.layout__sidebar}>
           <Sidebare
-            handleElementSelect={handleElementSelect}
-            handleOpen={handleOpen}
+            addText={addText}
+            addRect={addRect}
+            addCircle={addCircle}
+            addTriangle={addTriangle}
+            addImage={addImage}
           />
         </div>
         <div className={classes.layout__canvas}>
-          <Canvas
-            selectedElement={selectedElement}
-            handleOpen={handleOpen}
-            isOpen={isOpen}
-          />
+          <canvas id="canvas" />
         </div>
       </div>
+      {isOpen ? (
+        <Modal handleOpen={handleOpen} generateSVGCode={generateSVGCode} />
+      ) : null}
     </div>
   );
 }
