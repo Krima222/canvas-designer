@@ -1,7 +1,8 @@
 export type ElementType =
   | 'text'
-  | 'element'
-  | 'jpg'
-  | 'png'
+  | 'rect'
+  | 'circle'
+  | 'triangle'
   | 'cleare'
-  | 'redo';
+  | 'redo'
+  | 'del';

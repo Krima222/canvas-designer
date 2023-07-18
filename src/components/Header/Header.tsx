@@ -26,16 +26,23 @@ export function Header({ handleElementSelect, handleOpen }: HeaderProps) {
     handleElementSelect('redo');
   };
 
+  const handleDelButtonClick = () => {
+    handleElementSelect('del');
+  };
+
   return (
     <div className={classes.header}>
       <img src={logo} alt="logo" />
       <div className={classes.header__wrapper}>
-        <button className={classes.header__arrow}>
+        <button
+          className={classes.header__arrow}
+          onClick={handleRedoButtonClick}
+        >
           <img src={arrowLeft} alt="arrowLeft" />
         </button>
         <button
           className={classes.header__arrow}
-          onClick={handleRedoButtonClick}
+          onClick={handleDelButtonClick}
         >
           <img src={arrowRight} alt="arrowRight" />
         </button>

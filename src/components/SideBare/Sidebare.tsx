@@ -24,8 +24,16 @@ export function Sidebare({ handleElementSelect, handleOpen }: SidebarProps) {
     handleElementSelect('text');
   };
 
-  const handleRectangleButtonClick = () => {
-    handleElementSelect('element');
+  const handleRectButtonClick = () => {
+    handleElementSelect('rect');
+  };
+
+  const handleCircleButtonClick = () => {
+    handleElementSelect('circle');
+  };
+
+  const handleTriangleButtonClick = () => {
+    handleElementSelect('triangle');
   };
 
   const handleElementButtonClick = () => {
@@ -56,13 +64,13 @@ export function Sidebare({ handleElementSelect, handleOpen }: SidebarProps) {
         Rect
         {open ? (
           <ul>
-            <li>
+            <li onClick={handleCircleButtonClick}>
               <img src={circle} alt="circle" />
             </li>
-            <li onClick={handleRectangleButtonClick}>
+            <li onClick={handleRectButtonClick}>
               <img src={square} alt="square" />
             </li>
-            <li>
+            <li onClick={handleTriangleButtonClick}>
               <img src={triangle} alt="triangle" />
             </li>
           </ul>

@@ -22,7 +22,10 @@ export function App() {
 
   return (
     <div className={classes.layout}>
-      <Header />
+      <Header
+        handleOpen={handleOpen}
+        handleElementSelect={handleElementSelect}
+      />
       <div className={classes.layout__wrapper}>
         <div className={classes.layout__sidebar}>
           <Sidebare

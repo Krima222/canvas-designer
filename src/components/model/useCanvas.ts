@@ -9,23 +9,19 @@ interface UseCanvasResult {
   canvas: fabric.Canvas | null;
 }
 
-const generateSVGCode = (canvas: fabric.Canvas | null): string => {
-  if (!canvas) return '';
-  return canvas.toSVG();
-};
-
 export function useCanvas({
   selectedElement,
 }: UseCanvasProps): UseCanvasResult {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [elements, setElements] = useState<fabric.Object[]>([]);
-  const [history, setHistory] = useState<string[]>([]);
+  const [del, setdel] = useState<fabric.Object[]>([]);
+  console.log(elements);
 
   useEffect(() => {
     const newCanvas = new fabric.Canvas('canvas', {
-      height: 700,
-      width: 800,
-      backgroundColor: 'pink',
+      height: 500,
+      width: 900,
+      backgroundColor: 'white',
     });
 
     setCanvas(newCanvas);
@@ -59,7 +55,6 @@ export function useCanvas({
       canvas.add(text);
       canvas.renderAll();
       setElements((prevElements) => [...prevElements, text]);
-      setHistory((prevHistory) => [...prevHistory, generateSVGCode(canvas)]);
     };
 
     const addRect = () => {
@@ -75,7 +70,31 @@ export function useCanvas({
       canvas.add(rect);
       canvas.renderAll();
       setElements((prevElements) => [...prevElements, rect]);
-      setHistory((prevHistory) => [...prevHistory, generateSVGCode(canvas)]);
+    };
+
+    const addCircle = () => {
+      const circle = new fabric.Circle({
+        radius: 20,
+        left: 200,
+        top: 200,
+        fill: 'green',
+      });
+      canvas.add(circle);
+      canvas.renderAll();
+      setElements((prevElements) => [...prevElements, circle]);
+    };
+
+    const addTriangle = () => {
+      const triangle = new fabric.Triangle({
+        width: 50,
+        height: 50,
+        left: 300,
+        top: 200,
+        fill: 'blue',
+      });
+      canvas.add(triangle);
+      canvas.renderAll();
+      setElements((prevElements) => [...prevElements, triangle]);
     };
 
     const addImage = (file: File) => {
@@ -88,10 +107,6 @@ export function useCanvas({
           canvas.add(img);
           canvas.renderAll();
           setElements((prevElements) => [...prevElements, img]);
-          setHistory((prevHistory) => [
-            ...prevHistory,
-            generateSVGCode(canvas),
-          ]);
         });
       };
       reader.readAsDataURL(file);
@@ -100,41 +115,50 @@ export function useCanvas({
     const cleareCanvas = () => {
       if (canvas) {
         const canvasObjects = canvas.getObjects();
-        const canvasSvgCode = generateSVGCode(canvas);
 
         canvas.remove(...canvasObjects);
         canvas.renderAll();
 
         setElements([]);
-        setHistory([canvasSvgCode]);
-        console.log(history);
       }
     };
 
-    const redo = () => {
-      if (history.length > 1) {
-        const previousSvgCode = history[history.length - 2];
-        fabric.loadSVGFromURL(previousSvgCode, (objects, options) => {
-          const parsedObjects = fabric.util.groupSVGElements(objects, options);
-
-          canvas.clear();
-          canvas.add(parsedObjects).renderAll();
-          setElements(parsedObjects.toObject());
-          setHistory((prevHistory) =>
-            prevHistory.slice(0, prevHistory.length - 1),
-          );
-        });
+    const undoDeleteElement = () => {
+      if (canvas && del.length > 0) {
+        const lastElement = del[del.length - 1];
+        canvas.add(lastElement);
+        canvas.renderAll();
+        setElements((prevElements) => [...prevElements, lastElement]);
+        setdel((prevElements) => prevElements.slice(0, -1));
       }
+      console.log('undoDeleteElement');
+    };
+
+    const deleteLastElement = () => {
+      if (canvas && elements.length > 0) {
+        const lastElement = elements[elements.length - 1];
+        canvas.remove(lastElement);
+        canvas.renderAll();
+        setElements((prevElements) => prevElements.slice(0, -1));
+        setdel((prevElements) => [...prevElements, lastElement]);
+      }
+      console.log('deleteLastElement');
     };
 
     if (selectedElement === 'text') {
       addText();
-    } else if (selectedElement === 'element') {
+    } else if (selectedElement === 'rect') {
       addRect();
+    } else if (selectedElement === 'circle') {
+      addCircle();
+    } else if (selectedElement === 'triangle') {
+      addTriangle();
     } else if (selectedElement === 'cleare') {
       cleareCanvas();
     } else if (selectedElement === 'redo') {
-      redo();
+      undoDeleteElement();
+    } else if (selectedElement === 'del') {
+      deleteLastElement();
     } else if (
       typeof selectedElement === 'object' &&
       selectedElement !== null
