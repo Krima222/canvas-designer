@@ -1,0 +1,39 @@
+@mixin style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2px;
+
+  color: grey;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  &__button {
+    border: none;
+    background: none;
+
+    padding: 10px;
+
+    @include style;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+  }
+  &__input {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+  &__label {
+    @include style;
+  }
+}
