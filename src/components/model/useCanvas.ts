@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 
-interface Props {
+interface UseCanvasProps {
   selectedElement: string | File | null;
 }
 
@@ -14,7 +14,9 @@ const generateSVGCode = (canvas: fabric.Canvas | null): string => {
   return canvas.toSVG();
 };
 
-export function useCanvas({ selectedElement }: Props): UseCanvasResult {
+export function useCanvas({
+  selectedElement,
+}: UseCanvasProps): UseCanvasResult {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [elements, setElements] = useState<fabric.Object[]>([]);
   const [history, setHistory] = useState<string[]>([]);

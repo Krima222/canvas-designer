@@ -1,14 +1,14 @@
-import { Portal } from '../../Portal/Portal';
+import { Portal } from '../Portal/Portal';
 
 import classes from './Modal.module.scss';
 
-interface IProps {
+interface ModalProps {
   handleOpen: (element: boolean) => void;
   svgCode?: string;
 }
 
-export function Modal({ handleOpen, svgCode }: IProps) {
-  const handleModalOpenButtonClick = () => {
+export function Modal({ handleOpen, svgCode }: ModalProps) {
+  const handleModalCloseButtonClick = () => {
     handleOpen(false);
   };
 
@@ -16,7 +16,7 @@ export function Modal({ handleOpen, svgCode }: IProps) {
     <Portal>
       <div className={classes.modal}>
         <h2>Portal</h2>
-        <button onClick={handleModalOpenButtonClick}>Close</button>
+        <button onClick={handleModalCloseButtonClick}>Close</button>
         <div>{svgCode}</div>
       </div>
     </Portal>
