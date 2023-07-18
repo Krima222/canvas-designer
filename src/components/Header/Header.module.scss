@@ -1,0 +1,21 @@
+.header {
+  height: 50px;
+
+  padding: 0 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: rgb(97, 255, 204);
+  background: linear-gradient(
+    90deg,
+    rgba(97, 255, 204, 1) 0%,
+    rgba(152, 48, 255, 1) 100%
+  );
+
+  &__wrapper {
+    display: flex;
+    gap: 10px;
+  }
+}
