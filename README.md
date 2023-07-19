@@ -48,3 +48,7 @@
 ## Технологии
 
 React, FabricJs, TypeScript, SCSS + БЭМ, Git
+
+## Ссылка на работающее демо
+
+[https://64b7e52596176610b33307c2--earnest-treacle-0b6ec7.netlify.app/]

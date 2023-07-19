@@ -17,6 +17,7 @@ export function useCanvas(): UseCanvasResult {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [elements, setElements] = useState<fabric.Object[]>([]);
   const [del, setdel] = useState<fabric.Object[]>([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const newCanvas = new fabric.Canvas('canvas', {
@@ -27,10 +28,25 @@ export function useCanvas(): UseCanvasResult {
 
     setCanvas(newCanvas);
 
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
       newCanvas.dispose();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (canvas) {
+      canvas.setWidth(windowWidth * 0.6);
+      canvas.setHeight(windowWidth * 0.4);
+      canvas.renderAll();
+    }
+  }, [windowWidth, canvas]);
 
   const addText = () => {
     if (!canvas) return;
