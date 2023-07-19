@@ -1,5 +1,7 @@
 import { Portal } from '../Portal/Portal';
 
+import cross from '../../img/cross.svg';
+
 import classes from './Modal.module.scss';
 
 interface ModalProps {
@@ -14,10 +16,16 @@ export function Modal({ handleOpen, generateSVGCode }: ModalProps) {
 
   return (
     <Portal>
-      <div className={classes.modal}>
-        <h2>Portal</h2>
-        <button onClick={handleModalCloseButtonClick}>Close</button>
-        <div>{generateSVGCode()}</div>
+      <div className={classes.overlay}>
+        <div className={classes.modal}>
+          <div className={classes.modal__content}>{generateSVGCode()}</div>
+          <button
+            className={classes.modal__button}
+            onClick={handleModalCloseButtonClick}
+          >
+            <img src={cross} alt="cross" />
+          </button>
+        </div>
       </div>
     </Portal>
   );
