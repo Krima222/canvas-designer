@@ -5,6 +5,8 @@
   flex-direction: column;
   gap: 2px;
 
+  padding: 10px;
+
   color: grey;
   font-size: 12px;
   font-weight: 600;
@@ -14,11 +16,10 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
   &__button {
     border: none;
     background: none;
-
-    padding: 10px;
 
     @include style;
 

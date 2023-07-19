@@ -29,6 +29,12 @@
     border-radius: 5px;
     background: hsla(0, 0%, 100%, 0.9);
     color: #0d1216;
-    padding: 0 6px;
+    padding: 7px 12px;
+    transition: background-color 0.3s ease;
+  }
+
+  &__button:hover {
+    background-color: rgba(37, 38, 39, 0.95);
+    color: #fff;
   }
 }
