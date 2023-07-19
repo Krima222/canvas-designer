@@ -41,14 +41,14 @@ export function Sidebare({
     <div className={classes.sidebar}>
       <button className={classes.sidebar__button} onClick={addText}>
         <img src={capitallettert} alt="capitallettert" />
-        Text
+        Текст
       </button>
       <button
         className={classes.sidebar__button}
         onClick={handleElementButtonClick}
       >
         <img src={figure} alt="figure" />
-        Rect
+        Элементы
         {open ? (
           <ul>
             <li onClick={addCircle}>
